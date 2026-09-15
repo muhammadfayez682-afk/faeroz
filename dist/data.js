@@ -34,7 +34,7 @@ export function makeData(){
     }
   }
   const applicants=['محمد أحمد','عبدالرحمن علي','سارة عبدالله','نواف الحربي','ريم خالد','خالد فهد','عبدالعزيز سالم','منيرة أحمد','بدر يوسف','مها إبراهيم','سلطان ناصر','عبدالله فيصل'];
-  const applications=applicants.map((name,i)=>({id:'REQ-'+(1001+i),name,mobile:'05••• ••'+(701+i),bedrooms:i%4===0?1:2,date:addDays(TODAY,-i%5),phase:i===0?1:i%3,unitId:'',family:4,budget:36000,notes:i===0?'يفضل وحدة في الأدوار المتوسطة. جاهز للانتقال خلال شهر.':'يرغب في الانتقال خلال الشهر المقبل.',history:[{text:'تم استلام طلب الإيجار',date:addDays(TODAY,-i%5),by:'مسؤول التأجير'},...(i===0||i%3>0?[{text:'تمت مراجعة بيانات العميل',date:TODAY,by:'محمد السالم'}]:[])]}));
+  const applications=applicants.map((name,i)=>({id:'REQ-'+(1001+i),name,mobile:'05••• ••'+(701+i),bedrooms:i>0&&i%4===0?1:2,date:addDays(TODAY,-i%5),phase:i===0?1:i%3,unitId:'',family:4,budget:36000,notes:i===0?'يفضل وحدة في الأدوار المتوسطة. جاهز للانتقال خلال شهر.':'يرغب في الانتقال خلال الشهر المقبل.',history:[{text:'تم استلام طلب الإيجار',date:addDays(TODAY,-i%5),by:'مسؤول التأجير'},...(i===0||i%3>0?[{text:'تمت مراجعة بيانات العميل',date:TODAY,by:'محمد السالم'}]:[])]}));
   const issues=['تسرب مياه أسفل حوض المطبخ','ضعف تبريد المكيف','عطل في إنارة المدخل','تسرب في دورة المياه','صيانة قفل الباب','تنظيف خزان المياه','فحص لوحة الكهرباء','تسرب من وحدة التكييف'];
   const maintenance=Array.from({length:18},(_,i)=>{
     const unit=units.find(u=>u.id===(i===0?'A02-105':i<3?'A01-204':'A'+String(1+i%8).padStart(2,'0')+'-'+(101+i%6)));
