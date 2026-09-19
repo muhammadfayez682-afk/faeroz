@@ -30,4 +30,4 @@ for(const file of ['index.html','app.js','data.js','pages.js','ui.js','renovatio
 for(const file of ['app.js','data.js','pages.js','renovation.js','renovation-data.js','renovation-controller.js'])assert.ok(!/\b(fetch|XMLHttpRequest|localStorage|sessionStorage)\b/.test(readFileSync('dist/'+file,'utf8')),file+' must remain local and ephemeral');
 console.log('PASS: 572 units, 329 occupied, 243 vacant, 499 two-bedroom, 73 one-bedroom.');
 console.log('PASS: consistent renovation totals, exclusive assignment, relocation, quality gate, return, pool release, unchanged lease occupancy.');
-console.log(`PASS: ${routes.length} route states render; assets exist; demo contains no API calls or persistent storage.`);
+console.log(`PASS: ${routes.length} core route states render; assets exist; core demo stays in memory without API calls.`);

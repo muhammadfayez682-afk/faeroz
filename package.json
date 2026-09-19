@@ -3,5 +3,5 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "check": "node scripts/verify.mjs" }
+  "scripts": { "check": "node scripts/verify.mjs && node scripts/verify-resident.mjs", "generate:services": "node scripts/generate-service-pages.mjs" }
 }
