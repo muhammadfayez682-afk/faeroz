@@ -1,8 +1,8 @@
-import {e,icon,button,field} from './ui.js?v=20260919-residents';
-import {technicians} from './data.js?v=20260919-residents';
-import {createTicket,advanceTicket,storageKey} from './resident-data.js?v=20260919-residents';
-import {createResidentStore,browserStorage} from './resident-store.js?v=20260919-residents';
-import qrcode from './vendor/qrcode.js?v=20260919-residents';
+import {e,icon,button,field} from './ui.js?v=20260920-quality';
+import {technicians} from './data.js?v=20260920-quality';
+import {createTicket,advanceTicket,storageKey} from './resident-data.js?v=20260920-quality';
+import {createResidentStore,browserStorage} from './resident-store.js?v=20260920-quality';
+import qrcode from './vendor/qrcode.js?v=20260920-quality';
 let store,photo='',photoVersion=0,processing=false;
 export function initializeResident(units){store=createResidentStore(units,browserStorage());}
 export function residentSnapshot(){return store.read();}
@@ -23,7 +23,7 @@ export function residentAction(action,id,ctx){
     }
     if(action==='resident-download-qr'){
       if(!ctx.data.units.some(u=>u.id===id))return true;
-      const blob=new Blob([qrMarkup(id)],{type:'image/svg+xml'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='NAWA-'+id+'-QR.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return true;
+      const blob=new Blob([qrMarkup(id)],{type:'image/svg+xml'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='EMDADAT-'+id+'-QR.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return true;
     }
     const tickets=store.read(),ticket=tickets.find(t=>t.id===id);if(!ticket)throw new Error('الطلب غير موجود.');
     if(action==='resident-assign'){

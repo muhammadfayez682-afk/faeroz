@@ -1,6 +1,6 @@
-import {e,icon,link,button,title,panel,table,info,empty} from './ui.js?v=20260919-residents';
-import {services,categories,stages,ticketForUnit} from './resident-data.js?v=20260919-residents';
-import {technicians} from './data.js?v=20260919-residents';
+import {e,icon,link,button,title,panel,table,info,empty} from './ui.js?v=20260920-quality';
+import {services,categories,stages,ticketForUnit} from './resident-data.js?v=20260920-quality';
+import {technicians} from './data.js?v=20260920-quality';
 const categoryIcons=['air','bolt','tap','drop','door','grid'];
 const drawings={air:'<path d="M3 8h13a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h7a3 3 0 1 1-3 3"/>',bolt:'<path d="m13 2-9 12h7l-1 8 10-13h-7Z"/>',tap:'<path d="M3 12h15v5h3v-8h-8V5M8 5h10M5 12v5H2v-5M18 21v-1"/>',drop:'<path d="M12 2S5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13Z"/><path d="M9 16a3 3 0 0 0 3 3"/>',camera:'<rect x="3" y="6" width="18" height="15" rx="3"/><path d="m8 6 2-3h4l2 3"/><circle cx="12" cy="13" r="4"/>'};
 export const residentIcon=name=>drawings[name]?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${drawings[name]}</svg>`:icon(name);
@@ -11,7 +11,7 @@ export function residentTimeline(t){return `<ol class="rs-timeline" aria-label="
 const residentBack=(base,text='العودة للخدمات')=>link(base,icon('chevron')+text,'rs-back');
 export function renderResident(data,path,q,tickets,persistent=true){
   const [, ,unitId,view,ticketId]=path.split('/'),unit=data.units.find(u=>u.id===unitId),base='/service/'+unitId;
-  const header=`<header class="rs-header"><div class="rs-brand"><span class="brand-mark">${icon('building')}</span><div><strong>نواة</strong><small>خدمات السكان</small></div></div>${unit?`<span class="rs-unit-pill" dir="ltr">${e(unit.id)}</span>`:''}</header>`;
+  const header=`<header class="rs-header"><div class="rs-brand"><span class="brand-mark">${icon('building')}</span><div><strong>إمدادات الجودة</strong><small>خدمات السكان</small></div></div>${unit?`<span class="rs-unit-pill" dir="ltr">${e(unit.id)}</span>`:''}</header>`;
   let content='';
   if(!unit)content=`<section class="rs-card rs-message">${icon('door')}<h1>رابط الوحدة غير صحيح</h1><p>امسح رمز QR الموجود داخل شقتك للوصول إلى خدمات وحدتك.</p></section>`;
   else if(!view){

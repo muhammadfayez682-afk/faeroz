@@ -1,4 +1,4 @@
-import {seedTickets,validTickets,storageKey} from './resident-data.js?v=20260919-residents';
+import {seedTickets,validTickets,storageKey} from './resident-data.js?v=20260920-quality';
 // Only resident tickets persist; the rest of the investor demo remains in memory.
 export function createResidentStore(units, storage) {
   let memory=seedTickets(),available=Boolean(storage);

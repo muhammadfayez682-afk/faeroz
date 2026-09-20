@@ -1,7 +1,7 @@
-import {TODAY,metrics} from './data.js?v=20260919-residents';
-import {assignTemporaryUnit,confirmRelocation,approveRenovation,approveInspection,confirmReturn} from './renovation-data.js?v=20260919-residents';
-import {poolTable} from './renovation.js?v=20260919-residents';
-import {e,date,icon,field} from './ui.js?v=20260919-residents';
+import {TODAY,metrics} from './data.js?v=20260920-quality';
+import {assignTemporaryUnit,confirmRelocation,approveRenovation,approveInspection,confirmReturn} from './renovation-data.js?v=20260920-quality';
+import {poolTable} from './renovation.js?v=20260920-quality';
+import {e,date,icon,field} from './ui.js?v=20260920-quality';
 
 export function renovationAction(action,id,ctx){const {data:d,openModal,toast,render}=ctx;
  if(action==='pool-modal'){openModal('وحدات السكن المؤقت',`<p class="modal-description">وحدات مخصصة للانتقال المؤقت، مع عرض التخصيص الحالي لكل أسرة.</p>${poolTable(d)}`,'','',true);return true;}
