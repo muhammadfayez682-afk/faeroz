@@ -1,6 +1,6 @@
-import {e,icon,link,button,title,panel,table,info,empty} from './ui.js?v=20260920-quality';
-import {services,categories,stages,ticketForUnit} from './resident-data.js?v=20260920-quality';
-import {technicians} from './data.js?v=20260920-quality';
+import {e,icon,link,button,title,panel,table,info,empty} from './ui.js?v=20260920-query';
+import {services,categories,stages,ticketForUnit} from './resident-data.js?v=20260920-query';
+import {technicians} from './data.js?v=20260920-query';
 const categoryIcons=['air','bolt','tap','drop','door','grid'];
 const drawings={air:'<path d="M3 8h13a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h7a3 3 0 1 1-3 3"/>',bolt:'<path d="m13 2-9 12h7l-1 8 10-13h-7Z"/>',tap:'<path d="M3 12h15v5h3v-8h-8V5M8 5h10M5 12v5H2v-5M18 21v-1"/>',drop:'<path d="M12 2S5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13Z"/><path d="M9 16a3 3 0 0 0 3 3"/>',camera:'<rect x="3" y="6" width="18" height="15" rx="3"/><path d="m8 6 2-3h4l2 3"/><circle cx="12" cy="13" r="4"/>'};
 export const residentIcon=name=>drawings[name]?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${drawings[name]}</svg>`:icon(name);
@@ -13,7 +13,7 @@ export function renderResident(data,path,q,tickets,persistent=true){
   const [, ,unitId,view,ticketId]=path.split('/'),unit=data.units.find(u=>u.id===unitId),base='/service/'+unitId;
   const header=`<header class="rs-header"><div class="rs-brand"><span class="brand-mark">${icon('building')}</span><div><strong>إمدادات الجودة</strong><small>خدمات السكان</small></div></div>${unit?`<span class="rs-unit-pill" dir="ltr">${e(unit.id)}</span>`:''}</header>`;
   let content='';
-  if(!unit)content=`<section class="rs-card rs-message">${icon('door')}<h1>رابط الوحدة غير صحيح</h1><p>امسح رمز QR الموجود داخل شقتك للوصول إلى خدمات وحدتك.</p></section>`;
+  if(!unit)content=`<section class="rs-card rs-message">${icon('door')}<h1>رابط الوحدة غير صحيح</h1><p>تعذر تحديد الوحدة، يرجى مسح رمز QR الموجود داخل الشقة.</p></section>`;
   else if(!view){
     const mine=tickets.filter(t=>t.unitId===unit.id).sort((a,b)=>b.createdAt.localeCompare(a.createdAt)).slice(0,5);
     content=`<section class="rs-welcome"><span class="rs-eyebrow">خدمات السكان</span><h1>أهلاً بك</h1><div class="rs-address"><span>${icon('building')} المبنى <b dir="ltr">${e(unit.buildingId)}</b></span><span>${icon('door')} الوحدة <b>${unit.number}</b></span></div><h2>كيف يمكننا خدمتك؟</h2></section><div class="rs-services">${Object.entries(services).map(([key,s])=>link(base+'/request?service='+key,`<span class="rs-service-icon">${icon(s.icon)}</span><strong>${s.label}</strong>${icon('left')}`,'rs-service '+(key==='maintenance'?'featured':''))).join('')}</div>${mine.length?`<section class="rs-recent"><h2>طلبات هذه الوحدة</h2>${mine.map(t=>link(base+'/track/'+t.id,`<div><strong>${e(t.category)}</strong><small dir="ltr">${t.id}</small></div><div>${statusBadge(t)}${icon('chevron')}</div>`,'rs-request-row')).join('')}</section>`:''}`;

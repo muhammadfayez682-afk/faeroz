@@ -1,6 +1,6 @@
-import {metrics,TODAY} from './data.js?v=20260920-quality';
-import {renovationSteps,buildingRenovationSteps,relocationSteps,renovationLabels,residentLabels,renovationMetrics} from './renovation-data.js?v=20260920-quality';
-import {e,num,money,date,icon,link,button,title,card,panel,progress,table,info,timeline,workflow,empty} from './ui.js?v=20260920-quality';
+import {metrics,TODAY} from './data.js?v=20260920-query';
+import {renovationSteps,buildingRenovationSteps,relocationSteps,renovationLabels,residentLabels,renovationMetrics} from './renovation-data.js?v=20260920-query';
+import {e,num,money,date,icon,link,button,title,card,panel,progress,table,info,timeline,workflow,empty} from './ui.js?v=20260920-query';
 const rBadge=(key,kind='plan')=>{const [label,tone]=(kind==='resident'?residentLabels:renovationLabels)[key]||[key,'gray'];return `<span class="badge ${tone}"><span class="status-dot"></span>${label}</span>`;};
 const unit=id=>id?link('/units/'+id,`<span class="unit-code">${e(id)}</span>`):'<span class="muted">لم تُخصص</span>';
 const rb=(text,action,id,cls='btn primary')=>button(text,action,cls,`data-id="${e(id)}"`);

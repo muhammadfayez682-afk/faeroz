@@ -1,8 +1,9 @@
-import {e,icon,button,field} from './ui.js?v=20260920-quality';
-import {technicians} from './data.js?v=20260920-quality';
-import {createTicket,advanceTicket,storageKey} from './resident-data.js?v=20260920-quality';
-import {createResidentStore,browserStorage} from './resident-store.js?v=20260920-quality';
-import qrcode from './vendor/qrcode.js?v=20260920-quality';
+import {residentServiceUrl} from './resident-routing.js?v=20260920-query';
+import {e,icon,button,field} from './ui.js?v=20260920-query';
+import {technicians} from './data.js?v=20260920-query';
+import {createTicket,advanceTicket,storageKey} from './resident-data.js?v=20260920-query';
+import {createResidentStore,browserStorage} from './resident-store.js?v=20260920-query';
+import qrcode from './vendor/qrcode.js?v=20260920-query';
 let store,photo='',photoVersion=0,processing=false;
 export function initializeResident(units){store=createResidentStore(units,browserStorage());}
 export function residentSnapshot(){return store.read();}
@@ -10,7 +11,7 @@ export function residentPersistent(){return store.persistent;}
 export function resetResident(){store.reset();}
 export function residentRouteChanged(){photo='';processing=false;photoVersion++;}
 export function residentStorageEvent(event,ctx){if(event.key===storageKey && !ctx.route().path.includes('/request'))ctx.render();}
-export function serviceUrl(unitId){return new URL('service/'+encodeURIComponent(unitId)+'/',new URL('./',import.meta.url)).href;}
+export function serviceUrl(unitId){return residentServiceUrl(unitId,new URL('./',import.meta.url));}
 function qrMarkup(unitId){const qr=qrcode(0,'M');qr.addData(serviceUrl(unitId));qr.make();return qr.createSvgTag({cellSize:5,margin:20,scalable:true});}
 function qrContents(unitId){return `<div class="rs-qr-image" role="img" aria-label="رمز QR للوحدة ${e(unitId)}">${qrMarkup(unitId)}</div><p class="rs-qr-unit" dir="ltr">${e(unitId)}</p><p class="small muted">امسح الرمز لفتح خدمات الوحدة مباشرة.</p><div class="rs-qr-actions"><a class="btn primary" href="${serviceUrl(unitId)}">فتح صفحة السكان ${icon('left')}</a>${button(icon('download')+' تنزيل QR','resident-download-qr','btn',`data-id="${unitId}"`)}</div>`;}
 export function residentAction(action,id,ctx){

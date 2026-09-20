@@ -1,10 +1,11 @@
-import {renderResident,renderResidentAdmin} from './resident.js?v=20260920-quality';
-import {initializeResident,residentSnapshot,residentPersistent,residentAction,residentSubmit,residentChange,residentRouteChanged,residentStorageEvent,resetResident} from './resident-controller.js?v=20260920-quality';
-import {makeData,TODAY,PROJECT,technicians,daysUntil,addDays,metrics} from './data.js?v=20260920-quality';
-import {e,num,money,date,icon,link,button,field,info,empty} from './ui.js?v=20260920-quality';
-import {renderPage} from './pages.js?v=20260920-quality';
-import {initializeRenovation} from './renovation-data.js?v=20260920-quality';
-import {renovationAction,renovationSubmit} from './renovation-controller.js?v=20260920-quality';
+import {resolveRoute} from './resident-routing.js?v=20260920-query';
+import {renderResident,renderResidentAdmin} from './resident.js?v=20260920-query';
+import {initializeResident,residentSnapshot,residentPersistent,residentAction,residentSubmit,residentChange,residentRouteChanged,residentStorageEvent,resetResident} from './resident-controller.js?v=20260920-query';
+import {makeData,TODAY,PROJECT,technicians,daysUntil,addDays,metrics} from './data.js?v=20260920-query';
+import {e,num,money,date,icon,link,button,field,info,empty} from './ui.js?v=20260920-query';
+import {renderPage} from './pages.js?v=20260920-query';
+import {initializeRenovation} from './renovation-data.js?v=20260920-query';
+import {renovationAction,renovationSubmit} from './renovation-controller.js?v=20260920-query';
 
 function demoData(){const d=makeData();d.renovation=initializeRenovation(d);return d;}
 let data=demoData(),guide=-1,toastTimer,searchTimer,lastFocus=null;
@@ -12,7 +13,7 @@ const app=document.querySelector('#app'),modalRoot=document.querySelector('#moda
 initializeResident(data.units);
 const nav=[['/','الرئيسية','grid'],['/overview','نظرة عامة على المشروع','layers'],['/buildings','المباني','building'],['/units','الوحدات السكنية','door'],['/applications','طلبات الإيجار','file-plus'],['/tenants','المستأجرون','users'],['/contracts','العقود','file'],['/payments','الدفعات','wallet'],['/maintenance','الصيانة','wrench'],['/resident-requests','طلبات السكان','home'],['/renovation','التجديد والانتقال المؤقت','building'],['/reports','التقارير','chart'],['/roadmap','خطة التطوير','route']];
 const guideStops=[['/overview','حجم المشروع','572 وحدة تحت إدارة واحدة'],['/value','المشكلة التشغيلية','من بيانات موزعة إلى منصة واحدة'],['/','لوحة الإدارة','حالة المشروع خلال دقيقة'],['/buildings','المباني والوحدات','من المبنى إلى تفاصيل الوحدة'],['/rental-journey','رحلة التأجير','من الطلب إلى تسليم المفاتيح'],['/tenants/TEN-2014','المستأجر والعقد','جميع التفاصيل في ملف 360°'],['/payments','تحصيل الإيجارات','من دفع؟ وما المتأخر؟'],['/maintenance/MNT-1025','إدارة الصيانة','المسؤول والحالة والخطوة التالية'],['/renovation','استمرارية التشغيل أثناء التجديد','انتقال مؤقت وخطة واضحة للعودة'],['/reports','مركز متابعة الإدارة','إشغال وتحصيل وصيانة'],['/value','القيمة التجارية','أثر تشغيلي مستهدف'],['/roadmap','خارطة التطوير','من العرض إلى منصة متكاملة']];
-function route(){const raw=location.hash.slice(1)||(document.querySelector('meta[name=service-unit]')?'/service/'+document.querySelector('meta[name=service-unit]').content:'/');const [path,query='']=raw.split('?');return {path,q:new URLSearchParams(query)};}
+function route(){return resolveRoute(location.hash,location.search,Boolean(document.querySelector('meta[name=resident-service]')));}
 function go(path){if(location.hash==='#'+path)render();else location.hash=path;}
 function render(){const {path,q}=route();const resident=path.startsWith('/service/');document.body.classList.toggle('resident-mode',resident);if(resident){document.title='خدمات السكان | إمدادات الجودة';app.innerHTML=renderResident(data,path,q,residentSnapshot(),residentPersistent());return;}const active=nav.find(([href])=>href==='/'?path==='/':path===href||path.startsWith(href+'/'))?.[0];const pageTitle=nav.find(([href])=>href===active)?.[1]||({'/rental-journey':'رحلة التأجير','/lifecycle':'دورة حياة الوحدة','/value':'القيمة المضافة'}[path])||'تفاصيل المعاملة';document.title=pageTitle+' | إمدادات الجودة';
  app.innerHTML=`<aside class="sidebar" aria-label="القائمة الرئيسية"><a class="brand" href="#/"><span class="brand-mark">${icon('building')}</span><div><strong>إمدادات الجودة</strong><small>إدارة وتشغيل العقارات</small></div></a><nav class="nav"><div class="nav-label">مساحة العمل</div>${nav.map(([href,label,ico],i)=>`${href==='/reports'?'<div class="nav-label" style="margin-top:13px">الرؤية والمتابعة</div>':''}<a href="#${href}" class="${active===href?'active':''}" ${active===href?'aria-current="page"':''}>${icon(ico)}<span>${label}</span>${href==='/applications'?`<span class="nav-count">${data.applications.filter(a=>a.phase<2).length}</span>`:''}</a>`).join('')}<div class="nav-label" style="margin-top:13px">اكتشف التجربة</div>${[['/rental-journey','رحلة التأجير','key'],['/lifecycle','دورة حياة الوحدة','refresh'],['/value','القيمة المضافة','sparkles']].map(([h,t,i])=>link(h,icon(i)+`<span>${t}</span>`,path===h?'active':'')).join('')}</nav><div class="sidebar-bottom"><div class="demo-label"><span class="status-dot"></span>نموذج استثماري تفاعلي</div><p>بيانات توضيحية · نسخة العرض 01</p></div></aside>
