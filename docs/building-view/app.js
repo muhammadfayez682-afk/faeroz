@@ -17,15 +17,15 @@
   // Independent illustrative inventory; never reads or changes administration data.
   function makeBuilding(id, total, available, occupied, maintenance) {
     const featured = [
-      {suffix:'204', bedrooms:2, bathrooms:2, size:95, floor:2, price:32000},
-      {suffix:'305', bedrooms:1, bathrooms:1, size:72, floor:3, price:26000},
-      {suffix:'401', bedrooms:2, bathrooms:2, size:100, floor:4, price:34000}
+      {suffix:'204', bedrooms:2, bathrooms:2, size:95, floor:2, price:14000},
+      {suffix:'305', bedrooms:1, bathrooms:1, size:72, floor:3, price:12000},
+      {suffix:'401', bedrooms:2, bathrooms:2, size:100, floor:4, price:14000}
     ];
     const suffixes = [];
     for (let floor = 1; floor <= 5; floor++) for (let unit = 1; unit <= 12; unit++) suffixes.push(`${floor}${String(unit).padStart(2, '0')}`);
     const ordered = [...featured.map(u => u.suffix), ...suffixes.filter(s => !featured.some(u => u.suffix === s))].slice(0, total);
     const units = ordered.map((suffix, index) => {
-      const spec = featured.find(u => u.suffix === suffix) || {bedrooms:index % 3 === 0 ? 1 : 2, bathrooms:index % 3 === 0 ? 1 : 2, size:index % 3 === 0 ? 70 + index % 5 : 92 + index % 10, floor:Number(suffix[0]), price:index % 3 === 0 ? 25000 + index % 4 * 1000 : 31000 + index % 5 * 1000};
+      const spec = featured.find(u => u.suffix === suffix) || {bedrooms:index % 3 === 0 ? 1 : 2, bathrooms:index % 3 === 0 ? 1 : 2, size:index % 3 === 0 ? 70 + index % 5 : 92 + index % 10, floor:Number(suffix[0]), price:index % 3 === 0 ? 12000 : 14000};
       const status = index < available ? 'AVAILABLE' : index < available + occupied ? 'OCCUPIED' : index < available + occupied + maintenance ? 'MAINTENANCE' : 'RESERVED';
       return {id:`${id}-${suffix}`, buildingId:id, bedrooms:spec.bedrooms, bathrooms:spec.bathrooms, size:spec.size, floor:spec.floor, price:spec.price, status, services:[...services], payment:'دفعتان نصف سنويتين'};
     });
